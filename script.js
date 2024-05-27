@@ -1,28 +1,6 @@
 "use strict";
 
-const transactions = [
-  {
-    id: 1,
-    name: "salary",
-    amount: 5000,
-    date: new Date(),
-    type: "income",
-  },
-  {
-    id: 2,
-    name: "haircut",
-    amount: 25,
-    date: new Date(),
-    type: "expense",
-  },
-  {
-    id: 3,
-    name: "concert ticket",
-    amount: 250,
-    date: new Date(),
-    type: "expense",
-  },
-];
+const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 
 const formatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -98,6 +76,7 @@ function deleteTransaction(id) {
   transactions.splice(index, 1);
 
   updateTotal();
+  saveTransactions();
   renderList();
 }
 
@@ -117,5 +96,12 @@ function addTransaction(e) {
   this.reset();
 
   updateTotal();
+  saveTransactions();
   renderList();
+}
+
+function saveTransactions() {
+  transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  localStorage.setItem("transactions", JSON.stringify(transactions));
 }
