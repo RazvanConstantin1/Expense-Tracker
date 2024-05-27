@@ -24,16 +24,41 @@ const transactions = [
   },
 ];
 
+const formatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  signDisplay: "always",
+});
+
 const list = document.getElementById("transactionList");
 const status = document.getElementById("status");
 
 function renderList() {
   list.innerHTML = ``;
 
-  transactions.forEach((transaction) => {
+  if (transactions.length === 0) {
+    status.textContent = "No Transactions";
+    return;
+  }
+
+  transactions.forEach(({ id, name, date, amount, type }) => {
     const li = document.createElement("li");
 
-    li.innerHTML = transaction.name;
+    li.innerHTML = `
+    <div class ="name">
+    <h4>${name}</h4>
+    <p>${new Date(date).toLocaleDateString()}</p>
+    </div>
+
+    
+     
+    <div class = "amount ${type}" >
+    <span>${formatter.format(amount)}</span>
+    </div>
+    
+    <div class ="action">
+    </div>
+    `;
 
     list.appendChild(li);
   });
