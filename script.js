@@ -39,8 +39,6 @@ function renderList() {
   if (transactions.length === 0) {
     status.textContent = "No transactions.";
     return;
-  } else {
-    status.textContent = "";
   }
 
   transactions.forEach(({ id, name, amount, date, type }) => {
